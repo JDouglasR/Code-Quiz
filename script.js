@@ -10,6 +10,7 @@ const counter = document.getElementById("counter");
 const timeGauge = document.getElementById("timeGauge");
 const progress = document.getElementById("progress");
 const scoreDiv = document.getElementById("scoreContainer");
+const leaderList = document.getElementById("leaderboards");
 
 // create our questions
 let questions = [
@@ -65,22 +66,19 @@ let questions = [
 ];
 
 // create some variables
-
 const lastQuestion = questions.length - 1;
 let runningQuestion = 0;
 let count = 0;
-const questionTime = 10; // 10s
-const gaugeWidth = 150; // 150px
-const gaugeUnit = gaugeWidth / questionTime;
+const gaugeWidth = 150;
 let TIMER;
 let score = 0;
+
 
 // render a question
 function renderQuestion(){
     let q = questions[runningQuestion];
     
     question.innerHTML = "<p>"+ q.question +"</p>";
-    //qImg.innerHTML = "<img src="+ q.imgSrc +">";
     choiceA.innerHTML = q.choiceA;
     choiceB.innerHTML = q.choiceB;
     choiceC.innerHTML = q.choiceC;
@@ -93,38 +91,12 @@ function startQuiz(){
     start.style.display = "none";
     renderQuestion();
     quiz.style.display = "block";
-    renderProgress();
-    renderCounter();
-    TIMER = setInterval(renderCounter,1000); // 1000ms = 1s
-}
-
-// render progress
-function renderProgress(){
-    for(let qIndex = 0; qIndex <= lastQuestion; qIndex++){
-        progress.innerHTML += "<div class='prog' id="+ qIndex +"></div>";
-    }
+    
+    //TIMER = setInterval(renderCounter,1000); // 1000ms = 1s
 }
 
 // counter render
 
-function renderCounter(){
-    if(count <= questionTime){
-        counter.innerHTML = count;
-        timeGauge.style.width = count * gaugeUnit + "px";
-        count++
-    }else{
-        count = 0;
-        
-        if(runningQuestion < lastQuestion){
-            runningQuestion++;
-            renderQuestion();
-        }else{
-            // end the quiz and show the score
-            clearInterval(TIMER);
-            scoreRender();
-        }
-    }
-}
 
 // checkAnwer
 
@@ -148,8 +120,7 @@ function checkAnswer(answer){
     }
 }
 
-
-
+let leaderboard = []
 // score render
 function scoreRender(){
     scoreDiv.style.display = "block";
@@ -157,9 +128,25 @@ function scoreRender(){
     // calculate the amount of question percent answered by the user
     const scorePerCent = Math.round(100 * score/questions.length);
     
-    // choose the image based on the scorePerCent
+    // prompt user for username input
+    var userName = prompt("Enter your name for the leaderboard.");
+    
+    // add username and score to the leaderboard
+    leaderboard.push(userName + ":" + scorePerCent+"%");
+
+    for (var i = 0;i < leaderboard.length; i++){
+        var player = leaderboard[i];
+
+        var li = document.createElement("li");
+        li.textContent = player;
+        leaderList.appendChild(li);
+    }
+
+    //window.localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
     
 }
+
+
 
 
 
