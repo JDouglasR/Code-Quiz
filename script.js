@@ -141,8 +141,8 @@ function scoreRender(){
         li.textContent = player;
         leaderList.appendChild(li);
     }
-
-    //window.localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    
+    window.localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
     
 }
 
