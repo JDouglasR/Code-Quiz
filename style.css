@@ -85,7 +85,6 @@ body{
     font-weight: bolder;
     padding-top: 30px;
     color: rgb(42, 214, 206);
-    
 }
 #scoreContainer p{
     position: absolute;
@@ -101,6 +100,21 @@ body{
 ul {
     text-align: center;
     list-style-position: inside;
+}
+#restart {
+    display: inline-block;
+    width : 135px;
+    text-align: center;
+    border : 1px solid rgb(121, 69, 126);
+    border-radius: 5px;
+    cursor: pointer;
+    padding : 5px;
+    color: rgb(80, 159, 165);
+}
+#restart:hover {
+    border : 2px solid rgb(160, 110, 189);
+    font-weight: bold;
+    color: rgb(42, 214, 206);
 }
 
 

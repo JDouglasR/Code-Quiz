@@ -8,6 +8,7 @@ let choiceB = document.querySelector("#B");
 let choiceC = document.querySelector("#C");
 let scoreDiv = document.querySelector("#scoreContainer");
 let leaderList = document.querySelector("#leaderboards");
+let restart = document.querySelector("#restart");
 let leaderboard = [];
 
 // create our questions
@@ -100,7 +101,7 @@ function startTimer(duration, display) {
     var minutes;
     var seconds;
 
-    setInterval(function () {
+    const beginning = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -110,6 +111,7 @@ function startTimer(duration, display) {
         display.textContent = minutes + ":" + seconds;
 
         if (--timer < 0) {
+            clearInterval(beginning);
             timer = duration;
         }
     }, 1000);
@@ -125,7 +127,7 @@ function checkAnswer(answer){
         
     }else{
         // answer is wrong
-        
+        runningQuestion++
         
     }
     count = 0;
@@ -142,6 +144,7 @@ function checkAnswer(answer){
 // score render
 function scoreRender(){
     scoreDiv.style.display = "block";
+    quiz.style.display = "none";
     
     const scorePerCent = Math.round(100 * score/questions.length);
     var userName = prompt("Enter your name for the leaderboard.");
@@ -164,10 +167,20 @@ function scoreRender(){
         li.textContent = player;
         leaderList.appendChild(li);
     }
+
+    restart.addEventListener("click", function(){
+        start.style.display = "block";
+        scoreDiv.style.display = "none";
+    })
+   
     
     localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
     
+
+
 }
+
+
 
 
 
