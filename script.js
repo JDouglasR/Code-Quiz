@@ -1,16 +1,17 @@
 // select all elements
-const start = document.getElementById("start");
-const quiz = document.getElementById("quiz");
-const question = document.getElementById("question");
-const qImg = document.getElementById("qImg");
-const choiceA = document.getElementById("A");
-const choiceB = document.getElementById("B");
-const choiceC = document.getElementById("C");
-const counter = document.getElementById("counter");
-const timeGauge = document.getElementById("timeGauge");
-const progress = document.getElementById("progress");
-const scoreDiv = document.getElementById("scoreContainer");
-const leaderList = document.getElementById("leaderboards");
+let start = document.getElementById("start");
+let quiz = document.getElementById("quiz");
+let question = document.getElementById("question");
+let qImg = document.getElementById("qImg");
+let choiceA = document.getElementById("A");
+let choiceB = document.getElementById("B");
+let choiceC = document.getElementById("C");
+let counter = document.getElementById("counter");
+let timeGauge = document.getElementById("timeGauge");
+let progress = document.getElementById("progress");
+let scoreDiv = document.getElementById("scoreContainer");
+let leaderList = document.getElementById("leaderboards");
+let leaderboard = [];
 
 // create our questions
 let questions = [
@@ -120,29 +121,33 @@ function checkAnswer(answer){
     }
 }
 
-let leaderboard = []
 // score render
 function scoreRender(){
     scoreDiv.style.display = "block";
     
-    // calculate the amount of question percent answered by the user
     const scorePerCent = Math.round(100 * score/questions.length);
-    
-    // prompt user for username input
     var userName = prompt("Enter your name for the leaderboard.");
-    
-    // add username and score to the leaderboard
-    leaderboard.push(userName + ":" + scorePerCent+"%");
+     
+    leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    if (!leaderboard){
+        leaderboard = [];
+    }
+
+    leaderboard.push({name: userName, score: scorePerCent});
+
+    leaderboard.sort(function(a, b) {
+        return b.score - a.score;
+      });
 
     for (var i = 0;i < leaderboard.length; i++){
-        var player = leaderboard[i];
+        var player = leaderboard[i].name + ": " + leaderboard[i].score +"%";
 
         var li = document.createElement("li");
         li.textContent = player;
         leaderList.appendChild(li);
     }
     
-    window.localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
     
 }
 
