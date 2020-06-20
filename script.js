@@ -1,16 +1,13 @@
 // select all elements
-let start = document.getElementById("start");
-let quiz = document.getElementById("quiz");
-let question = document.getElementById("question");
-let qImg = document.getElementById("qImg");
-let choiceA = document.getElementById("A");
-let choiceB = document.getElementById("B");
-let choiceC = document.getElementById("C");
-let counter = document.getElementById("counter");
-let timeGauge = document.getElementById("timeGauge");
-let progress = document.getElementById("progress");
-let scoreDiv = document.getElementById("scoreContainer");
-let leaderList = document.getElementById("leaderboards");
+let start = document.querySelector("#start");
+let quiz = document.querySelector("#quiz");
+let display = document.querySelector('#time');
+let question = document.querySelector("#question");
+let choiceA = document.querySelector("#A");
+let choiceB = document.querySelector("#B");
+let choiceC = document.querySelector("#C");
+let scoreDiv = document.querySelector("#scoreContainer");
+let leaderList = document.querySelector("#leaderboards");
 let leaderboard = [];
 
 // create our questions
@@ -92,11 +89,31 @@ function startQuiz(){
     start.style.display = "none";
     renderQuestion();
     quiz.style.display = "block";
+
     
-    //TIMER = setInterval(renderCounter,1000); // 1000ms = 1s
+    startTimer(30, display);
 }
 
-// counter render
+// timer render
+function startTimer(duration, display) {
+    var timer = duration;
+    var minutes;
+    var seconds;
+
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
 
 
 // checkAnwer
@@ -108,6 +125,7 @@ function checkAnswer(answer){
         
     }else{
         // answer is wrong
+        
         
     }
     count = 0;
