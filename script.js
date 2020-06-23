@@ -10,6 +10,7 @@ let scoreDiv = document.querySelector("#scoreContainer");
 let leaderList = document.querySelector("#leaderboards");
 let restart = document.querySelector("#restart");
 let leaderboard = [];
+let beginning;
 
 // create our questions
 let questions = [
@@ -68,9 +69,9 @@ let questions = [
 const lastQuestion = questions.length - 1;
 let runningQuestion = 0;
 let count = 0;
-const gaugeWidth = 150;
 let TIMER;
 let score = 0;
+var timer;
 
 
 // render a question
@@ -88,8 +89,12 @@ start.addEventListener("click",startQuiz);
 // start quiz
 function startQuiz(){
     start.style.display = "none";
+    runningQuestion = 0;
+    count = 0;
+    score = 0;
     renderQuestion();
     quiz.style.display = "block";
+    
 
     
     startTimer(30, display);
@@ -97,11 +102,11 @@ function startQuiz(){
 
 // timer render
 function startTimer(duration, display) {
-    var timer = duration;
+    timer = duration;
     var minutes;
     var seconds;
 
-    const beginning = setInterval(function () {
+    beginning = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -127,12 +132,12 @@ function checkAnswer(answer){
         
     }else{
         // answer is wrong
-        runningQuestion++
+        timer -= 3;
         
     }
     count = 0;
+    runningQuestion++;
     if(runningQuestion < lastQuestion){
-        runningQuestion++;
         renderQuestion();
     }else{
         // end the quiz and show the score
@@ -145,6 +150,7 @@ function checkAnswer(answer){
 function scoreRender(){
     scoreDiv.style.display = "block";
     quiz.style.display = "none";
+    clearInterval(beginning);
     
     const scorePerCent = Math.round(100 * score/questions.length);
     var userName = prompt("Enter your name for the leaderboard.");
@@ -169,8 +175,9 @@ function scoreRender(){
     }
 
     restart.addEventListener("click", function(){
-        start.style.display = "block";
         scoreDiv.style.display = "none";
+        startQuiz();
+        quiz.style.display = "block";
     })
    
     
@@ -179,28 +186,3 @@ function scoreRender(){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
